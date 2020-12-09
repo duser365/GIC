@@ -3,7 +3,9 @@ package poc.krish.hf;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;
+import java.io.Reader;
 import java.nio.ByteBuffer;
+import java.util.Base64;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -35,15 +37,19 @@ public class FutureServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-	    Part filePart = request.getPart("inputPhoto");
-	    InputStream inputStream = filePart.getInputStream();	    
-	    ByteBuffer imageBytes = ByteBuffer.wrap(IOUtils.toByteArray(inputStream));
+	    /* Part filePart = request.getPart("inputPhoto");
+	    InputStream inputStream = filePart.getInputStream(); */
+        
+        String data = request.getParameter("imageData");
+        //System.out.println("imageData: " + data);
+        data = data.substring(data.indexOf(",") + 1);
+        byte[] bytes = Base64.getDecoder().decode(data);
 	    
 		FaceSearcher fs = new FaceSearcher();
-		String faceId = fs.matchFaceImage(imageBytes);
+		//String faceId = fs.matchFaceImage(imageBytes);
+		String faceId = fs.matchFaceImage(ByteBuffer.wrap(bytes));
 		
 		PrintWriter writer = response.getWriter();
-
 		//writer.println(faceId);
 		
 		if (faceId != null) {		

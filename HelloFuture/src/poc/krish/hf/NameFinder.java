@@ -1,6 +1,5 @@
 package poc.krish.hf;
 
-import com.amazonaws.auth.EnvironmentVariableCredentialsProvider;
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDB;
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDBClientBuilder;
 import com.amazonaws.services.dynamodbv2.document.DynamoDB;
@@ -39,8 +38,8 @@ public class NameFinder {
 	}*/
 	
 	public String lookupName(String faceId) {
-		//AmazonDynamoDB client = AmazonDynamoDBClientBuilder.defaultClient();
-		AmazonDynamoDB client = AmazonDynamoDBClientBuilder.standard().withCredentials(new EnvironmentVariableCredentialsProvider()).build();
+		AmazonDynamoDB client = AmazonDynamoDBClientBuilder.defaultClient();
+		//AmazonDynamoDB client = AmazonDynamoDBClientBuilder.standard().build();
 
 		DynamoDB dynamoDB = new DynamoDB(client);
 

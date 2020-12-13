@@ -7,6 +7,7 @@ import java.io.Reader;
 import java.nio.ByteBuffer;
 import java.util.Base64;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.annotation.MultipartConfig;
@@ -38,7 +39,8 @@ public class FutureServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 	    /* Part filePart = request.getPart("inputPhoto");
-	    InputStream inputStream = filePart.getInputStream(); */
+	    InputStream inputStream = filePart.getInputStream();
+	    ByteBuffer imageBytes = ByteBuffer.wrap(IOUtils.toByteArray(inputStream)); */
         
         String data = request.getParameter("imageData");
         //System.out.println("imageData: " + data);
@@ -58,7 +60,7 @@ public class FutureServlet extends HttpServlet {
 
 			if (name != null) {
 				//writer.println("Welcome, " + name);
-				response.setContentType("text/html");
+				/*response.setContentType("text/html");
 				writer.println("<!DOCTYPE html>" +
 						"<html>\n" +
 						"<head><title>Welcome</title></head>\n"+
@@ -66,7 +68,11 @@ public class FutureServlet extends HttpServlet {
 						"<h1>Hello " + name + "</h1>\n" +
 						"</body>\n" + 
 						"</html>"
-						);			
+						);*/
+				
+				request.setAttribute("userName", name);
+				RequestDispatcher rd = request.getRequestDispatcher("home.jsp");
+			    rd.forward(request, response);
 			}
 			else
 				writer.println("Authentication failed!");
